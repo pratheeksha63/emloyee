@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Change FLAG here to customise the challenge flag before building.
+        FLAG: "CTF{3mpl0y33_p0rt4l_sqli_bypassed}"
+        # Override to set a strong secret key in production.
+        SECRET_KEY: "super_secret_flask_key_change_me"
+    image: employee-portal:latest
+    container_name: employee_portal
+    ports:
+      - "5000:5000"
+    volumes:
+      # Persist the SQLite database across container restarts
+      - portal_data:/data
+    restart: unless-stopped
+    # No environment overrides here — sensitive values are baked into the image
+    # via build ARGs so they never appear in running container env vars.
+
+volumes:
+  portal_data:

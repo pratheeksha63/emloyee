@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Portal — Dashboard</title>
+  <meta name="description" content="Acme Corp employee dashboard." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+<div class="page-center" style="align-items: flex-start; padding-top: 3rem;">
+  <div class="card" style="max-width: 620px;">
+
+    <!-- Header row -->
+    <div class="dash-header">
+      <div class="logo-wrap" style="margin-bottom:0;">
+        <div class="logo-icon">&#128736;</div>
+        <div class="logo-text">
+          <h1>Acme Corp</h1>
+          <span>Employee Portal</span>
+        </div>
+      </div>
+
+      <form method="POST" action="{{ url_for('logout') }}" id="logout-form">
+        <button class="btn-logout" type="submit" id="logout-btn">Sign Out</button>
+      </form>
+    </div>
+
+    <hr class="divider" style="margin-top:0;" />
+
+    <!-- User info row -->
+    <div class="dash-user" style="margin-bottom: 1.5rem;">
+      <div class="avatar" id="user-avatar">{{ username[0]|upper }}</div>
+      <div>
+        <div class="welcome-text">Signed in as</div>
+        <div class="username-text" id="display-username">{{ username }}</div>
+      </div>
+      <div style="margin-left: auto;">
+        {% if is_admin %}
+          <span class="badge badge-admin" id="admin-badge">&#9733; Administrator</span>
+        {% else %}
+          <span class="badge badge-employee" id="employee-badge">&#128100; Employee</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- ── Flag box — rendered ONLY for admin sessions ── -->
+    {% if is_admin and flag %}
+    <div class="flag-panel" id="flag-panel">
+      <div class="flag-label">&#127937; Challenge Flag</div>
+      <div class="flag-value" id="flag-value">{{ flag }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Stats -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-value">247</div>
+        <div class="stat-desc">Open Tickets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">18</div>
+        <div class="stat-desc">Team Members</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">99.7%</div>
+        <div class="stat-desc">Uptime</div>
+      </div>
+    </div>
+
+    <!-- Inbox panel -->
+    <div class="panel" id="inbox-panel">
+      <div class="panel-label">Recent Notifications</div>
+      <div style="color: var(--text-secondary); font-size: .88rem; line-height: 1.7;">
+        &#128231; &nbsp;Q4 review scheduled for 14 Nov &mdash; please confirm attendance.<br />
+        &#128274; &nbsp;Password policy update effective 01 Nov.<br />
+        &#128240; &nbsp;New IT security briefing available in the knowledge base.
+      </div>
+    </div>
+
+    <p class="footer-note">All activity on this portal is monitored and logged.</p>
+  </div>
+</div>
+</body>
+</html>
